@@ -10,7 +10,7 @@ en_y_p=0
 en_x_n=0
 en_y_n=0
 
-def mueve_arriba():
+def pintar_snake():
 	global posx
 	global posy
 	global en_x_p
@@ -22,39 +22,66 @@ def mueve_arriba():
 	if en_y_n==1 and 1>posy>0:
 		posy-=0.010
 		snake.place(relx=posx, rely=posy)
-		print("posicion Y: ",posy)
-		print("posicion X: ",posx)
-		root.after(100,mueve_arriba)
-		en_x_p=0
 		en_y_p=0
-		en_x_n=0
 		en_y_n=1
+		en_x_p=0
+		en_x_n=0
+
+	elif en_y_p==1 and 1>posy>0:
+		posy+=0.010
+		snake.place(relx=posx, rely=posy)
+		en_y_p=1
+		en_y_n=0
+		en_x_p=0
+		en_x_n=0
+
+	elif en_x_n==1 and 1>posy>0:
+		posx-=0.010
+		snake.place(relx=posx, rely=posy)
+		en_y_p=0
+		en_y_n=0
+		en_x_p=0
+		en_x_n=1
+
+	elif en_x_p==1 and 1>posy>0:
+		posx+=0.010
+		snake.place(relx=posx, rely=posy)
+		en_y_p=0
+		en_y_n=0
+		en_x_p=1
+		en_x_n=0
+	
+	print("posicion Y: ",posy)
+	print("posicion X: ",posx)
+	
+
+
+def mueve_arriba():
+	global posy
+	global en_y_n
+
+
+	if en_y_n==1 and 1>posy>0:
+
+		pintar_snake()
+		root.after(100,mueve_arriba)
+
 	elif 0>posy or posy>1:
 		respuesta=messagebox.askquestion("Perdiste", "Perdiste al chocar con el Borde deseas intentarlo de nuevo")
 		if respuesta=="no":
 			root.destroy()
 				
 
-
-
 def mueve_abajo():
-	global posx
 	global posy
-	global en_x_p
-	global en_x_n
 	global en_y_p
-	global en_y_n
+
 
 	if en_y_p==1 and 1>posy>0:
-		posy+=0.010
-		snake.place(relx=posx, rely=posy)
-		print("posicion Y: ",posy)
-		print("posicion X: ",posx)		
+
+		pintar_snake()
 		root.after(100,mueve_abajo)
-		en_x_p=0
-		en_y_p=1
-		en_x_n=0
-		en_y_n=0
+
 	elif 0>posy or posy>1:
 		respuesta=messagebox.askquestion("Perdiste", "Perdiste al chocar con el Borde deseas intentarlo de nuevo")
 		if respuesta=="no":
@@ -62,22 +89,13 @@ def mueve_abajo():
 
 def mueve_izq():
 	global posx
-	global posy
-	global en_x_p
 	global en_x_n
-	global en_y_p
-	global en_y_n
+
 
 	if en_x_n==1 and 1>posx>0:
-		posx-=0.010
-		snake.place(relx=posx, rely=posy)
-		print("posicion Y: ",posy)
-		print("posicion X: ",posx)
+		pintar_snake()
 		root.after(100,mueve_izq)
-		en_x_p=0
-		en_y_p=0
-		en_x_n=1
-		en_y_n=0
+
 	elif 0>posx or posx>1:
 		respuesta=messagebox.askquestion("Perdiste", "Perdiste al chocar con el Borde deseas intentarlo de nuevo")
 		if respuesta=="no":
@@ -86,22 +104,12 @@ def mueve_izq():
 
 def mueve_der():
 	global posx
-	global posy
 	global en_x_p
-	global en_x_n
-	global en_y_p
-	global en_y_n
 
 	if en_x_p==1 and 1>posx>0:
-		posx+=0.010
-		snake.place(relx=posx, rely=posy)
-		print("posicion Y: ",posy)
-		print("posicion X: ",posx)
+		pintar_snake()
 		root.after(100,mueve_der)
-		en_x_p=1
-		en_y_p=0
-		en_x_n=0
-		en_y_n=0
+
 	elif 0>posx or posx>1:
 		respuesta=messagebox.askquestion("Perdiste", "Perdiste al chocar con el Borde deseas intentarlo de nuevo")
 		if respuesta=="no":
@@ -119,8 +127,6 @@ def Arriba(event):
 
 	if en_y_p==0 :
 		snake.place(relx=posx, rely=posy)
-		print("posicion Y: ",posy)
-		print("posicion X: ",posx)
 		en_x_p=0
 		en_y_p=0
 		en_x_n=0
@@ -136,7 +142,6 @@ def Abajo(event):
 	global en_y_n
 
 	if en_y_n==0:
-		# posy+=0.010
 		snake.place(relx=posx, rely=posy)
 		en_x_p=0
 		en_y_p=1
@@ -153,7 +158,6 @@ def Izq(event):
 	global en_y_n
 
 	if en_x_p==0:
-		# posx-=0.010
 		snake.place(relx=posx, rely=posy)
 		en_x_p=0
 		en_y_p=0
@@ -170,13 +174,12 @@ def Der(event):
 	global en_y_n
 
 	if en_x_n==0:
-		# posx+=0.010
 		snake.place(relx=posx, rely=posy)
 		en_x_p=1
 		en_y_p=0
 		en_x_n=0
 		en_y_n=0
-		mueve_der()	
+		mueve_der()
 
 def callback(event):
     frame.focus_set()
