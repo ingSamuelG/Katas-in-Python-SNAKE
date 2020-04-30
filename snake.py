@@ -139,7 +139,7 @@ def inicio():
 
 
 			if len(cuerpo) in range(0,4):
-				vel-=50
+				vel-=100
 			elif len(cuerpo) in range(5,15):
 				vel-=20
 			elif len(cuerpo) > 15:
